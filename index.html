@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AURUM PULSE — XAUUSD Dual Strategy Dashboard</title>
+<style>
+:root{--site-primary:#d5a84f;--site-secondary:#17212d;--site-background:#0b1118;--site-on-primary:#111820;--site-on-secondary:#f4f6f8;--site-on-background:#edf1f5;--site-font-body:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--site-font-heading:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--site-heading-scale:1;--site-spacing-scale:1;--site-radius-scale:1;--site-decoration-opacity:1}
+*{box-sizing:border-box}body{margin:0;background:#0b1118;color:#edf1f5;font-family:var(--site-font-body)}#app{min-height:100vh;background-color:var(--site-background);color:var(--site-on-background)}
+header{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:17px clamp(15px,4vw,40px);background:#17212d;border-bottom:1px solid #2c3947;position:sticky;top:0;z-index:5}.brand{display:flex;gap:11px;align-items:center;font-weight:850;letter-spacing:.08em}.logo{width:39px;height:39px;display:grid;place-items:center;border-radius:10px;background:var(--site-primary);color:#111820;font-weight:900}.brand small{display:block;color:#9eacb9;font-size:10px;letter-spacing:.04em;margin-top:4px}.headright{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.chip{font-size:11px;border:1px solid #3b4a58;color:#c8d2dc;padding:7px 10px;border-radius:999px}.led{display:inline-block;width:7px;height:7px;border-radius:50%;background:#e5bd61;margin-right:6px}
+main{max-width:1450px;margin:auto;padding:24px clamp(13px,3vw,34px) 40px}.eyebrow{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--site-primary);font-weight:850}h1{font-size:clamp(26px,3.5vw,40px);line-height:1.1;margin:8px 0}.muted{color:#8d9baa;font-size:12px;line-height:1.6}.top{display:flex;justify-content:space-between;align-items:end;gap:18px;flex-wrap:wrap;margin-bottom:20px}.quote{font-size:12px;color:#9eacb9;text-align:right}.quote strong{display:block;color:#f1f4f7;font-size:26px;font-variant-numeric:tabular-nums}.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}.card{background:#121b25;border:1px solid #283644;border-radius:14px;padding:17px;min-width:0}.s8{grid-column:span 8}.s4{grid-column:span 4}.s6{grid-column:span 6}.s12{grid-column:span 12}.ctitle{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;font-weight:800;margin-bottom:13px}.tfrow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.tf{cursor:pointer;border:1px solid #354453;background:#18232e;color:#b4c0cb;padding:8px 12px;border-radius:7px;font-size:12px}.tf.active{background:var(--site-primary);border-color:var(--site-primary);color:#101820;font-weight:850}.tvframe{height:480px;overflow:hidden;border-radius:9px;background:#101820}.tvframe iframe{width:100%;height:100%;border:0}.ownchart{height:480px;position:relative;overflow:hidden;border:1px solid #263746;border-radius:9px;background:#0b121a}.ownchart canvas{display:block;width:100%;height:100%}.chart-status{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:9px 0}.demo-badge{background:#3c3423;color:#e8c66e;border:1px solid #6c5932;border-radius:6px;padding:5px 8px;font-size:10px;font-weight:900}.chart-legend{display:flex;gap:12px;flex-wrap:wrap;color:#9eacb9;font-size:11px;margin-top:8px}.legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}.compare-panel{display:none;margin-top:14px}.compare-panel.open{display:block}.scriptbox{width:100%;min-height:420px;background:#0b1118;color:#d9e3ec;border:1px solid #354453;border-radius:9px;padding:12px;font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;resize:vertical}.btn{display:inline-block;background:var(--site-primary);color:#111820;font-weight:800;padding:9px 12px;border-radius:8px;text-decoration:none;font-size:12px}.status{display:inline-block;padding:5px 8px;border-radius:6px;background:#3c3423;color:#e8c66e;font-size:10px;font-weight:900}.signal{font-size:27px;font-weight:900;color:#e8c66e;margin:12px 0 5px}.signaltext{font-size:12px;color:#a6b2bd;line-height:1.65}.levels{border-top:1px solid #293744;margin-top:14px;padding-top:9px}.level{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #202d39;font-size:12px}.level span{color:#95a3b0}.level b{font-variant-numeric:tabular-nums}.warning{border:1px solid #54462a;background:#211d15;color:#d8c99d;border-radius:9px;padding:12px;font-size:11px;line-height:1.65;margin-top:13px}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.stat{background:#18232e;border-radius:9px;padding:12px}.stat label{display:block;font-size:10px;color:#92a0ad;margin-bottom:8px}.stat strong{font-size:16px}.list{padding-left:18px;color:#b5c0ca;font-size:12px;line-height:1.8}.formrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.field label{display:block;color:#9aa8b5;font-size:11px;margin-bottom:6px}.field input,.field select{width:100%;background:#0d151d;color:#edf1f5;border:1px solid #354453;border-radius:7px;padding:10px;font-size:13px}.calcresult{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:12px}.result{background:#18232e;padding:12px;border-radius:9px}.result small{display:block;color:#94a2af;font-size:10px;margin-bottom:6px}.result strong{font-size:14px;overflow-wrap:anywhere}.foot{font-size:10px;color:#738292;text-align:center;line-height:1.7;margin-top:22px}
+
+.market-note{font-size:11px;color:#9aa8b5;line-height:1.6;margin-top:10px}
+.score-meter{height:9px;background:#263341;border-radius:99px;overflow:hidden;margin:10px 0}
+.score-fill{height:100%;width:0;background:linear-gradient(90deg,#e8c66e,#5cdda7);transition:width .2s}
+.check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.check-item{display:flex;gap:9px;align-items:flex-start;background:#18232e;border:1px solid #293744;border-radius:9px;padding:10px;font-size:12px;color:#c2ccd5}
+.check-item input{accent-color:#d5a84f;margin-top:2px}
+.status-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tag{display:inline-block;padding:5px 8px;border-radius:6px;background:#1b2935;border:1px solid #344352;color:#bdc8d2;font-size:10px;font-weight:800}
+.small-btn{border:1px solid #394957;background:#1a2632;color:#e9edf1;border-radius:7px;padding:8px 10px;cursor:pointer;font-size:11px;font-weight:700}
+.small-btn.primary{background:var(--site-primary);color:#111820;border-color:var(--site-primary)}
+.journal-table{width:100%;border-collapse:collapse;font-size:11px;margin-top:10px}
+.journal-table th,.journal-table td{text-align:left;border-bottom:1px solid #2a3744;padding:9px 7px;white-space:nowrap}
+.journal-table th{color:#9eacb9;font-weight:700}
+.journal-wrap{overflow-x:auto}
+.field textarea{width:100%;min-height:70px;background:#0d151d;color:#edf1f5;border:1px solid #354453;border-radius:7px;padding:10px;font:12px/1.5 inherit}
+@media(max-width:520px){.check-grid{grid-template-columns:1fr}.journal-table{font-size:10px}}
+
+@media(max-width:900px){.s8,.s4,.s6{grid-column:span 12}.tvframe{height:440px}}@media(max-width:520px){header{position:static}.tvframe{height:390px}.stats,.formrow{grid-template-columns:1fr}.calcresult{grid-template-columns:repeat(2,minmax(0,1fr))}.quote{text-align:left}}
+</style>
+</head>
+<body><div id="app">
+<header><div class="brand"><div class="logo">Au</div><div>AURUM PULSE<small>XAUUSD • NASDAQ 100 • DXY</small></div></div><div class="headright"><span class="chip"><span class="led"></span>Chart mandiri</span><span class="chip" id="dataState">DEMO • feed live belum terhubung</span><span class="chip" id="clock">Memuat waktu…</span></div></header>
+<main>
+<div class="top"><div><div class="eyebrow" id="marketEyebrow">Gold / US Dollar</div><h1>AURUM PULSE · XAUUSD Scalping Terminal</h1><div class="muted">Dashboard scalping AURUM PULSE dengan dua jalur setup: Trend-Following dan Countertrend SMC. Chart mandiri saat ini demo; data live baru aktif setelah feed OHLC resmi dihubungkan.</div></div><div class="quote">Harga pasar<br><strong id="quoteValue">Lihat grafik TradingView</strong><span class="muted" id="quoteNote">Tidak menampilkan harga buatan di panel.</span></div></div>
+<div class="grid">
+<section class="card s8"><div class="ctitle"><span id="chartTitle">Chart mandiri · XAUUSD</span><span class="muted" id="tfLabel">Timeframe: 1 menit</span></div><div class="tfrow" id="markets"><button class="tf active" data-market="gold">XAUUSD · Gold</button><button class="tf" data-market="nasdaq">NASDAQ 100</button><button class="tf" data-market="dxy">DXY · USD Index</button></div><div class="tfrow" id="timeframes"><button class="tf active" data-tf="1">M1</button><button class="tf" data-tf="5">M5</button><button class="tf" data-tf="15">M15</button><button class="tf" data-tf="30">M30</button><button class="tf" data-tf="60">H1</button><button class="tf" data-tf="240">H4</button><button class="tf" data-tf="D">D1</button><button class="tf" data-tf="W">W1</button><button class="tf" data-tf="M">MN</button></div><div class="chart-status"><span class="demo-badge" id="ownChartStatus">SIMULASI · BUKAN HARGA LIVE</span><span class="muted" id="ownChartMeta">Candlestick demo dengan overlay Hull, EMA, Chandelier, dan struktur SMC.</span></div><div class="ownchart"><canvas id="ownChart" aria-label="Chart candlestick demo AURUM PULSE"></canvas></div><div class="chart-legend"><span><i class="legend-dot" style="background:#d5a84f"></i>Hull (demo)</span><span><i class="legend-dot" style="background:#58c8e8"></i>EMA cepat</span><span><i class="legend-dot" style="background:#9c8bff"></i>EMA lambat</span><span><i class="legend-dot" style="background:#5cdda7"></i>CE long trail</span></div><div class="warning">Chart mandiri ini menggunakan data simulasi untuk menguji tampilan dan kontrol. Belum ada penyedia OHLC live/API yang tersambung, sehingga chart ini tidak boleh dipakai untuk mengambil keputusan trading.</div><p style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:0"><button class="btn" type="button" id="toggleTv">Tampilkan chart TradingView pembanding</button><a class="btn" id="openTv" href="https://www.tradingview.com/chart/?symbol=OANDA%3AXAUUSD" target="_blank" rel="noopener">Buka TradingView ↗</a></p><div class="compare-panel" id="comparePanel"><div class="ctitle"><span>Chart TradingView pembanding</span><span class="muted">Status feed mengikuti TradingView</span></div><div class="tvframe"><iframe id="tv" title="Grafik TradingView market" src="https://www.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=OANDA%3AXAUUSD&interval=1&hidesidetoolbar=0&symboledit=1&saveimage=0&toolbarbg=%23121b25&theme=dark&style=1&timezone=Asia%2FJakarta&withdateranges=1&hideideas=1&studies=%5B%5D&locale=id" allowtransparency="true" scrolling="no" allowfullscreen></iframe></div></div></section>
+<aside class="card s4"><div class="ctitle"><span>Signal engine</span><span class="status">BELUM TERHUBUNG</span></div><div class="muted">Rekomendasi saat ini</div><div class="signal" id="signalHeadline">WAIT / NO TRADE</div><div class="signaltext" id="signalReason">Panel siap menampilkan BUY/SELL setelah menerima candle real-time dari feed yang terhubung. Embed TradingView tidak memberikan OHLC ke JavaScript halaman ini, jadi belum ada sinyal live yang tervalidasi.</div><div class="levels"><div class="level"><span>Status konfirmasi</span><b id="confirmStatus">Menunggu feed API</b></div><div class="level"><span>Entry</span><b id="liveEntry">—</b></div><div class="level"><span>Stop loss</span><b id="liveSL">—</b></div><div class="level"><span>Take profit 1</span><b id="liveTP1">—</b></div><div class="level"><span>Take profit 2</span><b id="liveTP2">—</b></div><div class="level"><span>Risk : Reward</span><b id="liveRR">—</b></div><div class="level"><span>Waktu candle</span><b id="signalTime">—</b></div></div><div class="warning">Signal tidak menjamin keuntungan. XAUUSD bergerak cepat; spread, slippage, berita, dan leverage dapat memperbesar kerugian. Jangan membuka posisi hanya dari sinyal tanpa memeriksa harga dan risiko.</div><div style="margin-top:12px"><div class="muted" style="margin-bottom:7px">Aturan pemicu yang akan digunakan setelah feed dihubungkan</div><div class="stats"><div class="stat"><label>BUY</label><strong style="color:#5cdda7">Bullish</strong><div class="muted">M15 bias naik + M5 setup + M1 trigger</div></div><div class="stat"><label>SELL</label><strong style="color:#ff7e83">Bearish</strong><div class="muted">M15 bias turun + M5 setup + M1 trigger</div></div><div class="stat"><label>WAIT</label><strong style="color:#e8c66e">Tidak lengkap</strong><div class="muted">Konfirmasi tidak selaras atau data stale</div></div></div></div></aside>
+
+<section class="card s12" id="hullIndicator">
+  <div class="ctitle"><span>Hull Suite by InSilico</span><span class="status">PINE SCRIPT v4</span></div>
+  <p class="muted">Indikator Hull Moving Average (HMA / THMA / EHMA) sudah disertakan di website sebagai skrip siap salin. Karena grafik TradingView di halaman ini berjalan di dalam iframe, website tidak bisa memasukkan skrip Pine khusus secara otomatis ke grafik tertanam. Salin skrip ini ke Pine Editor di TradingView, lalu pilih <b>Add to chart</b>.</p>
+  <div class="stats" style="margin-bottom:12px">
+    <div class="stat"><label>Variasi</label><strong>HMA / THMA / EHMA</strong></div>
+    <div class="stat"><label>Default length</label><strong>55</strong></div>
+    <div class="stat"><label>Higher timeframe</label><strong>Opsional · H4</strong></div>
+  </div>
+  <div class="formrow">
+    <div class="field"><label>Source</label><input value="close" readonly></div>
+    <div class="field"><label>Hull variation</label><select id="hullMode"><option>Hma</option><option>Thma</option><option>Ehma</option></select></div>
+    <div class="field"><label>Length multiplier</label><input id="hullMult" type="number" min="0.1" step="0.1" value="1.0"></div>
+  </div>
+  <div class="formrow" style="margin-top:10px">
+    <div class="field"><label>Length</label><input id="hullLength" type="number" min="1" step="1" value="55"></div>
+    <div class="field"><label>Higher timeframe</label><select id="hullHtf"><option value="60">H1</option><option value="240" selected>H4</option><option value="D">D1</option><option value="W">W1</option></select></div>
+    <div class="field"><label>Gunakan higher timeframe</label><select id="hullUseHtf"><option value="false" selected>Tidak</option><option value="true">Ya</option></select></div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:13px 0">
+    <button class="btn" type="button" id="copyHull">Salin skrip Pine</button>
+    <a class="btn" href="https://www.tradingview.com/chart/?symbol=OANDA%3AXAUUSD" target="_blank" rel="noopener">Buka TradingView ↗</a>
+  </div>
+  <div id="hullCopyStatus" class="muted" aria-live="polite">Skrip mempertahankan logika indikator yang Anda kirim. Pengaturan di atas membantu menyiapkan konfigurasi yang akan disalin.</div>
+  <textarea id="hullScript" aria-label="Skrip Pine Script Hull Suite" spellcheck="false" style="width:100%;min-height:350px;background:#0b1118;color:#d9e3ec;border:1px solid #354453;border-radius:9px;padding:12px;font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;resize:vertical"></textarea>
+  <div class="warning">Cara memasang: buka TradingView → Pine Editor → tempel skrip → Save → Add to chart. Jika TradingView menolak skrip v4 karena perubahan platform, gunakan konverter Pine atau minta saya konversi ke Pine Script v5/v6. Pengaturan di sini tidak mengubah grafik iframe secara langsung.</div>
+</section>
+
+<section class="card s12" id="unifiedPine"><div class="ctitle"><span>AURUM PULSE — Unified Pine Script v3</span><span class="status">KODE REKONSTRUKSI</span></div><p class="muted">Satu skrip gabungan berisi Hull Suite, Snflow-style trend flip, Chandelier Exit, SMC (BOS/CHoCH, sweep, OB, FVG), konfirmasi MTF, Anti-Sideways, volatility guard, Smart Entry Score, candle-close protection, alert, dan panduan ATR risk. Snflow/Chandelier/SMC adalah rekonstruksi sesuai spesifikasi, bukan kode sumber asli yang tidak tersedia. Perubahan kompatibilitas pada panjang akar kuadrat sudah diterapkan. Tetap wajib dikompilasi dan diuji di Pine Editor sebelum digunakan.</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0"><button class="btn" type="button" id="copyUnified">Salin Unified Pine Script</button><a class="btn" href="https://www.tradingview.com/chart/?symbol=OANDA%3AXAUUSD" target="_blank" rel="noopener">Buka Pine Editor di TradingView ↗</a></div><div class="muted" id="unifiedCopyStatus" aria-live="polite">Kandungan skrip juga tersedia sebagai file .pine terpisah.</div><textarea class="scriptbox" id="unifiedScript" spellcheck="false" aria-label="Unified Pine Script AURUM PULSE">//@version=6
+indicator(&quot;AURUM PULSE — Unified Signals (Reconstructed v2)&quot;, overlay=true, max_labels_count=500, max_lines_count=300, max_boxes_count=100)
+
+// IMPORTANT: This is a reconstructed integration based on the user&#x27;s saved specifications.
+// Hull Suite is ported from the supplied v4 code. Snflow/Chandelier/SMC portions are
+// equivalent custom implementations, not the unavailable original source text.
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INPUTS
+// ─────────────────────────────────────────────────────────────────────────────
+groupHull = &quot;01 · Hull Suite&quot;
+hullSrc = input.source(close, &quot;Source&quot;, group=groupHull)
+hullMode = input.string(&quot;Hma&quot;, &quot;Hull Variation&quot;, options=[&quot;Hma&quot;, &quot;Thma&quot;, &quot;Ehma&quot;], group=groupHull)
+hullLength = input.int(55, &quot;Length&quot;, minval=1, group=groupHull)
+hullMult = input.float(1.0, &quot;Length multiplier&quot;, minval=0.1, step=0.1, group=groupHull)
+hullUseHtf = input.bool(false, &quot;Use higher timeframe Hull&quot;, group=groupHull)
+hullHtf = input.timeframe(&quot;240&quot;, &quot;Hull higher timeframe&quot;, group=groupHull)
+hullShowBand = input.bool(true, &quot;Show Hull band&quot;, group=groupHull)
+hullColorBars = input.bool(false, &quot;Color candles by Hull trend&quot;, group=groupHull)
+
+groupCE = &quot;02 · Chandelier Exit trend filter&quot;
+ceLength = input.int(22, &quot;ATR / lookback length&quot;, minval=1, group=groupCE)
+ceMult = input.float(3.0, &quot;ATR multiplier&quot;, minval=0.1, step=0.1, group=groupCE)
+ceUseClose = input.bool(true, &quot;Extremums use close&quot;, group=groupCE)
+ceShowLines = input.bool(true, &quot;Show trailing lines&quot;, group=groupCE)
+
+groupSn = &quot;03 · Snflow-style trend flip (custom reconstruction)&quot;
+snFast = input.int(21, &quot;Fast EMA&quot;, minval=1, group=groupSn)
+snSlow = input.int(55, &quot;Slow EMA&quot;, minval=2, group=groupSn)
+snShowSignals = input.bool(true, &quot;Show final BUY / SELL signals&quot;, group=groupSn)
+
+groupSMC = &quot;04 · Smart Money Concepts (custom reconstruction)&quot;
+pivotLen = input.int(5, &quot;Swing pivot length&quot;, minval=1, maxval=50, group=groupSMC)
+showStructure = input.bool(true, &quot;Show BOS / CHoCH&quot;, group=groupSMC)
+showSweeps = input.bool(true, &quot;Show liquidity sweeps&quot;, group=groupSMC)
+showOB = input.bool(true, &quot;Show recent order blocks&quot;, group=groupSMC)
+showFVG = input.bool(true, &quot;Show fair value gaps&quot;, group=groupSMC)
+zoneExtend = input.int(30, &quot;Zone extension bars&quot;, minval=1, maxval=200, group=groupSMC)
+
+groupFilters = &quot;05 · Confirmation &amp; protection&quot;
+confirmTf1 = input.timeframe(&quot;15&quot;, &quot;Higher timeframe confirmation&quot;, group=groupFilters)
+confirmTf2 = input.timeframe(&quot;5&quot;, &quot;Setup timeframe confirmation&quot;, group=groupFilters)
+emaConfirmLen = input.int(50, &quot;MTF EMA length&quot;, minval=1, group=groupFilters)
+adxLen = input.int(14, &quot;ADX length&quot;, minval=1, group=groupFilters)
+adxSmooth = input.int(14, &quot;ADX smoothing&quot;, minval=1, group=groupFilters)
+minAdx = input.float(18.0, &quot;Minimum ADX (anti-sideways)&quot;, minval=1, step=0.5, group=groupFilters)
+atrPctMax = input.float(2.5, &quot;Maximum ATR % (volatility guard)&quot;, minval=0.1, step=0.1, group=groupFilters)
+manualNewsBlock = input.bool(false, &quot;Manual news / abnormal spread block&quot;, group=groupFilters)
+minScore = input.int(70, &quot;Minimum Smart Entry Score&quot;, minval=0, maxval=100, group=groupFilters)
+closedBarOnly = input.bool(true, &quot;Only confirm on closed candles&quot;, group=groupFilters)
+showDashboard = input.bool(true, &quot;Show score / status dashboard&quot;, group=groupFilters)
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HULL SUITE — adapted from the complete user-provided Hull Suite v4 code
+// ─────────────────────────────────────────────────────────────────────────────
+hmaFunc(_src, _len) =&gt;
+    _half = math.max(1, int(math.round(_len / 2.0)))
+    sqrtLen = math.max(1, int(math.round(math.sqrt(float(_len)))))
+    ta.wma(2.0 * ta.wma(_src, _half) - ta.wma(_src, _len), sqrtLen)
+
+ehmaFunc(_src, _len) =&gt;
+    _half = math.max(1, int(math.round(_len / 2.0)))
+    sqrtLen = math.max(1, int(math.round(math.sqrt(float(_len)))))
+    ta.ema(2.0 * ta.ema(_src, _half) - ta.ema(_src, _len), sqrtLen)
+
+thmaFunc(_src, _len) =&gt;
+    _third = math.max(1, int(math.round(_len / 3.0)))
+    _half = math.max(1, int(math.round(_len / 2.0)))
+    ta.wma(ta.wma(_src, _third) * 3.0 - ta.wma(_src, _half) - ta.wma(_src, _len), _len)
+
+hullCalc(_src, _len) =&gt;
+    hullMode == &quot;Hma&quot; ? hmaFunc(_src, _len) : hullMode == &quot;Ehma&quot; ? ehmaFunc(_src, _len) : thmaFunc(_src, math.max(1, int(math.round(_len / 2.0))))
+
+hullLen = math.max(1, int(math.round(hullLength * hullMult)))
+hullLocal = hullCalc(hullSrc, hullLen)
+hull = hullUseHtf ? request.security(syminfo.tickerid, hullHtf, hullCalc(hullSrc, hullLen), gaps=barmerge.gaps_off, lookahead=barmerge.lookahead_off) : hullLocal
+hullSlow = hull[2]
+hullUp = hull &gt; hullSlow
+hullDown = hull &lt; hullSlow
+hullCol = hullUp ? color.lime : hullDown ? color.red : color.orange
+h1 = plot(hull, &quot;Hull&quot;, color=color.new(hullCol, 0), linewidth=2)
+h2 = plot(hullShowBand ? hullSlow : na, &quot;Hull band edge&quot;, color=color.new(hullCol, 25), linewidth=1)
+fill(h1, h2, title=&quot;Hull band&quot;, color=hullShowBand ? color.new(hullCol, 85) : na)
+barcolor(hullColorBars ? hullCol : na)
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CHANDELIER EXIT — trend/trailing lines only; no separate CE BUY/SELL labels
+// ─────────────────────────────────────────────────────────────────────────────
+ceAtr = ceMult * ta.atr(ceLength)
+ceHiSource = ceUseClose ? ta.highest(close, ceLength) : ta.highest(high, ceLength)
+ceLoSource = ceUseClose ? ta.lowest(close, ceLength) : ta.lowest(low, ceLength)
+ceLongRaw = ceHiSource - ceAtr
+ceShortRaw = ceLoSource + ceAtr
+ceLongPrev = nz(ceLongRaw[1], ceLongRaw)
+ceShortPrev = nz(ceShortRaw[1], ceShortRaw)
+ceLong = close[1] &gt; ceLongPrev ? math.max(ceLongRaw, ceLongPrev) : ceLongRaw
+ceShort = close[1] &lt; ceShortPrev ? math.min(ceShortRaw, ceShortPrev) : ceShortRaw
+var int ceDir = 1
+ceDir := close &gt; ceShortPrev ? 1 : close &lt; ceLongPrev ? -1 : ceDir
+plot(ceShowLines and ceDir == 1 ? ceLong : na, &quot;Chandelier long trail&quot;, color=color.new(color.green, 10), linewidth=2, style=plot.style_linebr)
+plot(ceShowLines and ceDir == -1 ? ceShort : na, &quot;Chandelier short trail&quot;, color=color.new(color.red, 10), linewidth=2, style=plot.style_linebr)
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SNFLOW-STYLE TREND FLIP — custom equivalent based on saved requirements
+// ─────────────────────────────────────────────────────────────────────────────
+snEmaFast = ta.ema(close, snFast)
+snEmaSlow = ta.ema(close, snSlow)
+snBull = snEmaFast &gt; snEmaSlow and close &gt; snEmaSlow
+snBear = snEmaFast &lt; snEmaSlow and close &lt; snEmaSlow
+snBullFlip = snBull and not snBull[1]
+snBearFlip = snBear and not snBear[1]
+plot(snEmaFast, &quot;Snflow-style fast EMA&quot;, color=color.new(color.aqua, 45))
+plot(snEmaSlow, &quot;Snflow-style slow EMA&quot;, color=color.new(color.blue, 55))
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SMC — pivots, BOS/CHoCH, liquidity sweeps, latest OB and FVG zones
+// ─────────────────────────────────────────────────────────────────────────────
+pivH = ta.pivothigh(high, pivotLen, pivotLen)
+pivL = ta.pivotlow(low, pivotLen, pivotLen)
+var float lastSwingHigh = na
+var float lastSwingLow = na
+var int lastSwingHighBar = na
+var int lastSwingLowBar = na
+var int structureBias = 0
+if not na(pivH)
+    lastSwingHigh := pivH
+    lastSwingHighBar := bar_index - pivotLen
+if not na(pivL)
+    lastSwingLow := pivL
+    lastSwingLowBar := bar_index - pivotLen
+
+bullBreak = not na(lastSwingHigh) and ta.crossover(close, lastSwingHigh)
+bearBreak = not na(lastSwingLow) and ta.crossunder(close, lastSwingLow)
+bullChoch = bullBreak and structureBias == -1
+bearChoch = bearBreak and structureBias == 1
+bullBos = bullBreak and structureBias != -1
+bearBos = bearBreak and structureBias != 1
+if bullBreak
+    structureBias := 1
+if bearBreak
+    structureBias := -1
+plotshape(showStructure and bullBos, title=&quot;Bullish BOS&quot;, text=&quot;BOS&quot;, style=shape.labelup, location=location.belowbar, color=color.new(color.green, 10), textcolor=color.white, size=size.tiny)
+plotshape(showStructure and bearBos, title=&quot;Bearish BOS&quot;, text=&quot;BOS&quot;, style=shape.labeldown, location=location.abovebar, color=color.new(color.red, 10), textcolor=color.white, size=size.tiny)
+plotshape(showStructure and bullChoch, title=&quot;Bullish CHoCH&quot;, text=&quot;CHoCH&quot;, style=shape.labelup, location=location.belowbar, color=color.new(color.teal, 0), textcolor=color.white, size=size.tiny)
+plotshape(showStructure and bearChoch, title=&quot;Bearish CHoCH&quot;, text=&quot;CHoCH&quot;, style=shape.labeldown, location=location.abovebar, color=color.new(color.orange, 0), textcolor=color.white, size=size.tiny)
+
+bullSweep = showSweeps and not na(lastSwingLow) and low &lt; lastSwingLow and close &gt; lastSwingLow
+bearSweep = showSweeps and not na(lastSwingHigh) and high &gt; lastSwingHigh and close &lt; lastSwingHigh
+plotshape(bullSweep, title=&quot;Bullish liquidity sweep&quot;, text=&quot;Sweep&quot;, style=shape.circle, location=location.belowbar, color=color.aqua, textcolor=color.black, size=size.tiny)
+plotshape(bearSweep, title=&quot;Bearish liquidity sweep&quot;, text=&quot;Sweep&quot;, style=shape.circle, location=location.abovebar, color=color.fuchsia, textcolor=color.white, size=size.tiny)
+
+var box bullOB = na
+var box bearOB = na
+if showOB and bullBreak
+    int obOffsetBull = 1
+    for i = 1 to 8
+        if close[i] &lt; open[i]
+            obOffsetBull := i
+            break
+    if not na(bullOB)
+        box.delete(bullOB)
+    bullOB := box.new(left=bar_index-obOffsetBull, top=high[obOffsetBull], right=bar_index+zoneExtend, bottom=low[obOffsetBull], bgcolor=color.new(color.green, 88), border_color=color.new(color.green, 45), extend=extend.none)
+if showOB and bearBreak
+    int obOffsetBear = 1
+    for i = 1 to 8
+        if close[i] &gt; open[i]
+            obOffsetBear := i
+            break
+    if not na(bearOB)
+        box.delete(bearOB)
+    bearOB := box.new(left=bar_index-obOffsetBear, top=high[obOffsetBear], right=bar_index+zoneExtend, bottom=low[obOffsetBear], bgcolor=color.new(color.red, 88), border_color=color.new(color.red, 45), extend=extend.none)
+
+bullFvg = showFVG and bar_index &gt;= 2 and low &gt; high[2]
+bearFvg = showFVG and bar_index &gt;= 2 and high &lt; low[2]
+var box[] fvgBoxes = array.new_box()
+if bullFvg
+    box newBullFvg = box.new(left=bar_index-2, top=low, right=bar_index+zoneExtend, bottom=high[2], bgcolor=color.new(color.aqua, 90), border_color=color.new(color.aqua, 65))
+    array.push(fvgBoxes, newBullFvg)
+if bearFvg
+    box newBearFvg = box.new(left=bar_index-2, top=low[2], right=bar_index+zoneExtend, bottom=high, bgcolor=color.new(color.fuchsia, 90), border_color=color.new(color.fuchsia, 65))
+    array.push(fvgBoxes, newBearFvg)
+while array.size(fvgBoxes) &gt; 20
+    box.delete(array.shift(fvgBoxes))
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MULTI-TIMEFRAME, ANTI-SIDEWAYS, VOLATILITY GUARD AND SCORE
+// ─────────────────────────────────────────────────────────────────────────────
+mtfBull1 = request.security(syminfo.tickerid, confirmTf1, close[1] &gt; ta.ema(close, emaConfirmLen)[1], gaps=barmerge.gaps_off, lookahead=barmerge.lookahead_on)
+mtfBear1 = request.security(syminfo.tickerid, confirmTf1, close[1] &lt; ta.ema(close, emaConfirmLen)[1], gaps=barmerge.gaps_off, lookahead=barmerge.lookahead_on)
+mtfBull2 = request.security(syminfo.tickerid, confirmTf2, close[1] &gt; ta.ema(close, emaConfirmLen)[1], gaps=barmerge.gaps_off, lookahead=barmerge.lookahead_on)
+mtfBear2 = request.security(syminfo.tickerid, confirmTf2, close[1] &lt; ta.ema(close, emaConfirmLen)[1], gaps=barmerge.gaps_off, lookahead=barmerge.lookahead_on)
+[diPlus, diMinus, adx] = ta.dmi(adxLen, adxSmooth)
+atrPct = close != 0 ? ta.atr(14) / close * 100.0 : 100.0
+sidewaysBlocked = adx &lt; minAdx
+volatilityBlocked = atrPct &gt; atrPctMax
+barConfirmed = not closedBarOnly or barstate.isconfirmed
+newsBlocked = manualNewsBlock
+
+bullScore = (hullUp ? 15 : 0) + (snBull ? 15 : 0) + (ceDir == 1 ? 10 : 0) + (mtfBull1 ? 15 : 0) + (mtfBull2 ? 10 : 0) + (bullBreak or bullChoch ? 15 : 0) + (bullSweep ? 10 : 0) + (diPlus &gt; diMinus ? 5 : 0) + (barConfirmed ? 5 : 0)
+bearScore = (hullDown ? 15 : 0) + (snBear ? 15 : 0) + (ceDir == -1 ? 10 : 0) + (mtfBear1 ? 15 : 0) + (mtfBear2 ? 10 : 0) + (bearBreak or bearChoch ? 15 : 0) + (bearSweep ? 10 : 0) + (diMinus &gt; diPlus ? 5 : 0) + (barConfirmed ? 5 : 0)
+score = math.max(bullScore, bearScore)
+
+rawBuy = snBullFlip or (bullBreak and hullUp and ceDir == 1)
+rawSell = snBearFlip or (bearBreak and hullDown and ceDir == -1)
+protectionBlocked = sidewaysBlocked or volatilityBlocked or newsBlocked or not barConfirmed or score &lt; minScore
+buySignal = rawBuy and bullScore &gt;= minScore and not protectionBlocked and mtfBull1 and mtfBull2
+sellSignal = rawSell and bearScore &gt;= minScore and not protectionBlocked and mtfBear1 and mtfBear2
+noTrade = not buySignal and not sellSignal
+
+plotshape(snShowSignals and buySignal, title=&quot;AURUM PULSE BUY&quot;, text=&quot;BUY&quot;, style=shape.labelup, location=location.belowbar, color=color.new(color.lime, 0), textcolor=color.black, size=size.small)
+plotshape(snShowSignals and sellSignal, title=&quot;AURUM PULSE SELL&quot;, text=&quot;SELL&quot;, style=shape.labeldown, location=location.abovebar, color=color.new(color.red, 0), textcolor=color.white, size=size.small)
+
+// Risk reference levels are visual guides only; not order execution.
+showRiskGuides = input.bool(false, &quot;Show ATR risk guide on signal&quot;, group=&quot;06 · Optional risk guides&quot;)
+riskAtrMult = input.float(1.5, &quot;Stop ATR multiplier&quot;, minval=0.1, step=0.1, group=&quot;06 · Optional risk guides&quot;)
+var line riskSLLine = na
+var line riskTPLine = na
+if showRiskGuides and (buySignal or sellSignal)
+    if not na(riskSLLine)
+        line.delete(riskSLLine)
+    if not na(riskTPLine)
+        line.delete(riskTPLine)
+    entryPx = close
+    riskDist = ta.atr(14) * riskAtrMult
+    slPx = buySignal ? entryPx - riskDist : entryPx + riskDist
+    tpPx = buySignal ? entryPx + riskDist * 2.0 : entryPx - riskDist * 2.0
+    riskSLLine := line.new(bar_index, slPx, bar_index+20, slPx, color=color.red, style=line.style_dashed, width=1)
+    riskTPLine := line.new(bar_index, tpPx, bar_index+20, tpPx, color=color.green, style=line.style_dashed, width=1)
+
+// Dashboard: status reflects calculated conditions on this chart symbol/timeframe.
+var table dash = table.new(position.top_right, 2, 6, border_width=1)
+if barstate.islast and showDashboard
+    statusTxt = buySignal ? &quot;BUY&quot; : sellSignal ? &quot;SELL&quot; : &quot;NO TRADE&quot;
+    reasonTxt = newsBlocked ? &quot;Manual news block&quot; : sidewaysBlocked ? &quot;Sideways / ADX low&quot; : volatilityBlocked ? &quot;ATR% too high&quot; : not barConfirmed ? &quot;Wait candle close&quot; : score &lt; minScore ? &quot;Score below threshold&quot; : (not mtfBull1 and not mtfBear1) ? &quot;HTF neutral&quot; : &quot;Waiting for trigger&quot;
+    table.cell(dash, 0, 0, &quot;AURUM PULSE&quot;, bgcolor=color.new(color.blue, 25), text_color=color.white)
+    table.cell(dash, 1, 0, statusTxt, bgcolor=buySignal ? color.green : sellSignal ? color.red : color.gray, text_color=color.white)
+    table.cell(dash, 0, 1, &quot;Smart Entry Score&quot;)
+    table.cell(dash, 1, 1, str.tostring(score) + &quot; / 100&quot;)
+    table.cell(dash, 0, 2, &quot;ADX / ATR%&quot;)
+    table.cell(dash, 1, 2, str.tostring(adx, &quot;#.0&quot;) + &quot; / &quot; + str.tostring(atrPct, &quot;#.00&quot;) + &quot;%&quot;)
+    table.cell(dash, 0, 3, &quot;MTF &quot; + confirmTf1 + &quot; / &quot; + confirmTf2)
+    table.cell(dash, 1, 3, (mtfBull1 and mtfBull2) ? &quot;Bullish&quot; : (mtfBear1 and mtfBear2) ? &quot;Bearish&quot; : &quot;Mixed&quot;)
+    table.cell(dash, 0, 4, &quot;Protection&quot;)
+    table.cell(dash, 1, 4, reasonTxt)
+    table.cell(dash, 0, 5, &quot;Data status&quot;)
+    table.cell(dash, 1, 5, &quot;TradingView chart feed&quot;)
+else if barstate.islast and not showDashboard
+    table.clear(dash, 0, 0, 1, 5)
+
+alertcondition(buySignal, title=&quot;AURUM PULSE BUY&quot;, message=&quot;AURUM PULSE BUY confirmed on closed candle. Check spread, news and risk before trading.&quot;)
+alertcondition(sellSignal, title=&quot;AURUM PULSE SELL&quot;, message=&quot;AURUM PULSE SELL confirmed on closed candle. Check spread, news and risk before trading.&quot;)
+noTradeStart = noTrade and (bar_index == 0 or not noTrade[1])
+alertcondition(noTradeStart and barConfirmed, title=&quot;AURUM PULSE NO TRADE&quot;, message=&quot;AURUM PULSE entered NO TRADE: no valid signal or a protection filter blocked entry.&quot;)
+</textarea></section>
+
+<section class="card s6"><div class="ctitle"><span>Kerangka analisis signal</span><span class="muted">M1 / M5 / M15</span></div><div class="stats"><div class="stat"><label>Filter tren</label><strong>EMA 20/50/200</strong></div><div class="stat"><label>Momentum</label><strong>RSI + MACD</strong></div><div class="stat"><label>Struktur harga</label><strong>Break / retest</strong></div></div><ul class="list"><li><b>M15:</b> tentukan bias utama dari EMA dan struktur swing.</li><li><b>M5:</b> cari pullback, breakout, atau retest searah bias M15.</li><li><b>M1:</b> tunggu candle konfirmasi sebelum menghitung entry dan stop.</li><li>Gunakan ATR untuk mengukur volatilitas dan jarak SL; hindari entry saat spread melebar.</li><li>Signal hanya boleh aktif jika data candle lengkap dan indikator berhasil dihitung.</li></ul></section>
+<section class="card s12" id="dualEngine"><div class="ctitle"><span>Dual Strategy Scalping Engine</span><span class="status">DESAIN SETUP · BUKAN SINYAL LIVE</span></div>
+<div class="stats">
+<div class="stat"><label>Jalur A · Trend-Following</label><strong style="color:#5cdda7">Ikuti momentum</strong><div class="muted">Konteks M15 → konfirmasi M5 → pemicu M1. Gunakan Hull/Snflow/CE dan struktur harga sebagai bukti tambahan.</div></div>
+<div class="stat"><label>Jalur B · Countertrend</label><strong style="color:#e8c66e">Liquidity reversal</strong><div class="muted">Butuh sweep likuiditas dan BOS/CHoCH yang terkonfirmasi. Sentuhan OB/FVG atau sweep saja tidak cukup.</div></div>
+<div class="stat"><label>Signal Resolver</label><strong style="color:#ff7e83">Konflik = WAIT</strong><div class="muted">Jika dua jalur mengeluarkan arah berlawanan, atau data/guard belum valid, sistem memblokir entry.</div></div>
+</div><div class="warning">Status operasional saat ini tetap NO TRADE karena halaman belum menerima feed OHLC live untuk menghitung kedua jalur secara otomatis. Panel ini menjelaskan aturan strategi; bukan klaim bahwa skor atau sinyal sedang dihitung dari harga live.</div></section>
+<section class="card s12" id="smartProtection"><div class="ctitle"><span>Smart Entry Score & Smart Trade Protection</span><span class="status" id="tradeStatus">NO TRADE</span></div>
+<div class="stats"><div class="stat"><label>Setup score (manual checklist)</label><strong id="scoreValue">0 / 100</strong><div class="score-meter"><div class="score-fill" id="scoreFill"></div></div><div class="muted">Skor checklist, bukan probabilitas profit dan bukan pembacaan otomatis indikator.</div></div><div class="stat"><label>Market regime</label><strong id="regimeValue">Belum dikonfirmasi</strong><div class="muted">Aktifkan filter hanya setelah mengecek chart.</div></div><div class="stat"><label>Data feed</label><strong style="color:#e8c66e">Belum terhubung</strong><div class="muted">Embed TradingView tidak mengekspos OHLC ke halaman ini.</div></div></div>
+<div class="check-grid" style="margin-top:12px"><label class="check-item"><input type="checkbox" class="score-check" value="20"> Bias M15 selaras dengan arah setup</label><label class="check-item"><input type="checkbox" class="score-check" value="15"> Konfirmasi M5 tersedia</label><label class="check-item"><input type="checkbox" class="score-check" value="15"> Trigger M1 pada candle tertutup</label><label class="check-item"><input type="checkbox" class="score-check" value="15"> Struktur SMC mendukung (BOS / CHoCH)</label><label class="check-item"><input type="checkbox" class="score-check" value="15"> Sweep / OB / FVG tervalidasi</label><label class="check-item"><input type="checkbox" class="score-check" value="10"> Hull Suite dan Chandelier searah</label><label class="check-item"><input type="checkbox" class="score-check" value="10"> Risiko dan spread masih wajar</label></div>
+<div class="check-grid" style="margin-top:10px"><label class="check-item"><input type="checkbox" id="sidewaysBlock" checked> Anti-sideways: kondisi ranging = blokir entry</label><label class="check-item"><input type="checkbox" id="newsBlock" checked> News / volatilitas tinggi = blokir entry</label><label class="check-item"><input type="checkbox" id="candleClosed" checked> Hanya candle tertutup (anti-repaint)</label><label class="check-item"><input type="checkbox" id="filtersPassed"> Saya sudah memverifikasi spread, berita, dan konfirmasi lintas timeframe</label></div>
+<div class="formrow" style="margin-top:12px"><div class="field"><label>Kondisi pasar saat diperiksa</label><select id="regimeSelect"><option value="unknown">Belum diperiksa</option><option value="trend">Trending</option><option value="sideways">Sideways / ranging</option></select></div><div class="field"><label>Risiko berita / volatilitas</label><select id="volatilitySelect"><option value="unknown">Belum diperiksa</option><option value="normal">Normal</option><option value="high">Tinggi / berita besar</option></select></div><div class="field"><label>Arah setup yang sedang dinilai</label><select id="setupSide"><option value="none">Belum ada setup</option><option value="buy">BUY</option><option value="sell">SELL</option></select></div></div>
+<div class="warning" id="protectionReason">NO TRADE aktif: belum ada feed OHLC live dan validasi setup. Panel ini tidak membuat sinyal otomatis dari chart embed.</div></section>
+<section class="card s12" id="indicatorShelf"><div class="ctitle"><span>Indikator Anda — dipertahankan</span><span class="status">4 INDIKATOR</span></div><div class="stats"><div class="stat"><label>01 · Hull Suite by InSilico</label><strong>HMA / THMA / EHMA</strong><div class="muted">Pine Script v4 disertakan sebagai skrip siap salin di bagian Hull Suite.</div></div><div class="stat"><label>02 · LinerX Snflow</label><strong>BUY / SELL trend flip</strong><div class="muted">Sinyal tetap dipertahankan; level Entry / SL / TP dihilangkan sesuai arahan awal.</div></div><div class="stat"><label>03 · Chandelier Exit</label><strong>Trend & trailing lines</strong><div class="muted">Logika tren dan garis dipertahankan; label/sinyal BUY/SELL duplikat dinonaktifkan sesuai arahan.</div></div><div class="stat"><label>04 · Smart Money Concepts PRO</label><strong>BOS · CHoCH · Sweep · OB · FVG</strong><div class="muted">Fitur SMC yang direncanakan mencakup struktur internal/swing, BOS/CHoCH, OB, EQH/EQL, FVG, MTF levels, dan premium/discount; kode asli tetap perlu diverifikasi dan dikompilasi.</div></div></div><div class="warning">Catatan penting: file yang tersedia saat ini hanya memuat skrip Hull Suite secara penuh. Skrip asli LinerX Snflow dan Chandelier Exit tidak ditemukan di file ini; kartu di atas mempertahankan spesifikasi/rujukannya, bukan mengklaim kode Pine asli sudah tertanam. Custom Pine Script juga tidak dapat disuntikkan otomatis ke iframe TradingView.</div></section>
+<section class="card s6"><div class="ctitle"><span>Signal Journal</span><span class="tag">Input manual</span></div><div class="formrow"><div class="field"><label>Instrumen</label><select id="journalMarket"><option>XAUUSD</option><option>NASDAQ 100</option><option>DXY</option></select></div><div class="field"><label>Arah</label><select id="journalSide"><option>BUY</option><option>SELL</option><option>NO TRADE</option></select></div><div class="field"><label>Hasil</label><select id="journalResult"><option>Open</option><option>Win</option><option>Loss</option><option>Breakeven</option><option>Skipped</option></select></div></div><div class="field" style="margin-top:10px"><label>Catatan setup</label><input id="journalNote" placeholder="Contoh: M15 bullish, sweep low, retest OB"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="small-btn primary" id="addJournal">Tambah catatan</button><button class="small-btn" id="clearJournal">Hapus catatan sesi</button><button class="small-btn" id="exportJournal">Ekspor CSV</button></div><div class="journal-wrap"><table class="journal-table"><thead><tr><th>Waktu</th><th>Instrumen</th><th>Arah</th><th>Hasil</th><th>Catatan</th></tr></thead><tbody id="journalRows"><tr><td colspan="5" class="muted">Belum ada catatan.</td></tr></tbody></table></div><div class="muted" style="margin-top:8px">Jurnal tersimpan hanya selama sesi halaman ini; refresh akan menghapusnya. Backtest historis tidak dijalankan karena feed candle historis belum terhubung.</div></section>
+<section class="card s6"><div class="ctitle"><span>News & Volatility Guard</span><span class="status" id="newsStatus">BELUM DIPERIKSA</span></div><p class="muted">Tidak ada feed berita live yang terhubung di file HTML ini. Gunakan kontrol manual berikut untuk memblokir setup saat berita berdampak tinggi atau volatilitas/spread abnormal.</p><div class="stats"><div class="stat"><label>Kalender berita</label><strong id="newsStateText">Belum dicek</strong></div><div class="stat"><label>Volatilitas</label><strong id="volStateText">Belum dicek</strong></div><div class="stat"><label>Keputusan guard</label><strong id="guardStateText">NO TRADE</strong></div></div><div class="warning">Untuk benar-benar otomatis, perlu sumber kalender ekonomi dan feed volatilitas yang sah, dengan waktu rilis dan timestamp yang jelas. Panel ini tidak mengarang berita atau status live.</div></section>
+<section class="card s6"><div class="ctitle"><span>Risk calculator</span><span class="muted">Input manual • bukan data live</span></div><div class="formrow"><div class="field"><label>Harga entry</label><input id="entryIn" type="number" step="0.01" placeholder="Masukkan harga"></div><div class="field"><label>Stop loss</label><input id="slIn" type="number" step="0.01" placeholder="Masukkan SL"></div><div class="field"><label>Risk : Reward</label><select id="rrIn"><option value="1.5">1 : 1.5</option><option value="2" selected>1 : 2</option><option value="3">1 : 3</option></select></div></div><div class="calcresult"><div class="result"><small>Jarak risiko</small><strong id="riskOut">—</strong></div><div class="result"><small>TP perkiraan</small><strong id="tpOut">—</strong></div><div class="result"><small>Arah</small><strong id="directionOut">—</strong></div><div class="result"><small>R:R</small><strong id="rrOut">—</strong></div></div><div class="muted" style="margin-top:10px">Pilih arah berdasarkan setup Anda; kalkulator menghitung TP dari jarak entry ke SL. Ini bukan rekomendasi trading.</div><div class="field" style="margin-top:10px"><label>Arah rencana</label><select id="sideIn"><option value="buy">BUY / Long</option><option value="sell">SELL / Short</option></select></div></section>
+<section class="card s12" id="backtestLab"><div class="ctitle"><span>Backtest Lab · Impor candle historis</span><span class="status">EKSPERIMENTAL</span></div>
+<p class="muted">Unggah CSV candle historis dari sumber yang Anda punya. Tool ini menguji strategi demonstrasi EMA crossover + ATR, bukan strategi lengkap Hull/Snflow/SMC. Hasil bergantung pada kualitas data, spread, komisi, slippage, dan konfigurasi.</p>
+<div class="formrow">
+<div class="field"><label>File CSV (kolom time, open, high, low, close)</label><input id="btFile" type="file" accept=".csv,text/csv"></div>
+<div class="field"><label>EMA cepat</label><input id="btFast" type="number" min="2" max="100" value="9"></div>
+<div class="field"><label>EMA lambat</label><input id="btSlow" type="number" min="3" max="300" value="21"></div>
+</div><div class="formrow" style="margin-top:10px">
+<div class="field"><label>Stop loss (ATR ×)</label><input id="btSL" type="number" min="0.2" max="10" step="0.1" value="1.5"></div>
+<div class="field"><label>Target (R:R)</label><select id="btRR"><option value="1">1 : 1</option><option value="1.5">1 : 1.5</option><option value="2" selected>1 : 2</option><option value="3">1 : 3</option></select></div>
+<div class="field"><label>Biaya per trade (R)</label><input id="btCost" type="number" min="0" max="1" step="0.01" value="0.05"></div>
+</div><p style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" id="runBacktest">Jalankan backtest CSV</button><span class="muted" id="btStatus">Belum ada file candle yang dimuat.</span></p>
+<div class="calcresult"><div class="result"><small>Jumlah trade</small><strong id="btTrades">—</strong></div><div class="result"><small>Win rate</small><strong id="btWin">—</strong></div><div class="result"><small>Net hasil (R)</small><strong id="btNet">—</strong></div><div class="result"><small>Max drawdown (R)</small><strong id="btDD">—</strong></div></div>
+<div class="warning">Batasan: parser ini mengharapkan header CSV yang memiliki kolom time (atau timestamp), open, high, low, close. Backtest memakai candle close untuk pemicu EMA, ATR sederhana, satu posisi pada satu waktu, dan pendekatan konservatif jika SL dan TP tersentuh dalam candle yang sama (SL dihitung lebih dahulu). Tidak ada jaminan hasil serupa di live market.</div></section>
+<section class="card s12"><div class="ctitle"><span>Kebutuhan agar signal benar-benar real-time</span><span class="status">LANGKAH BERIKUTNYA</span></div><ol class="list"><li><b>TradingView chart widget:</b> menampilkan grafik live/tertunda sesuai simbol, paket, dan penyedia. Widget embed umumnya tidak menyediakan OHLC candle untuk dibaca langsung oleh JavaScript website.</li><li><b>Data feed / API:</b> backend harus menerima OHLCV real-time dari broker atau vendor data yang mengizinkan penggunaan XAUUSD. Akses data, biaya, batas request, dan izin redistribusi tergantung penyedia.</li><li><b>Signal service:</b> backend menghitung EMA, RSI, MACD, ATR, struktur M15/M5/M1, lalu hanya mengeluarkan BUY/SELL saat aturan terkonfirmasi; selain itu WAIT.</li><li><b>Notifikasi posisi:</b> backend dapat mengirim alert browser/Telegram saat sinyal baru muncul, beserta harga entry, SL, TP, waktu candle, dan alasan. Alert harus menunggu candle close dan pemeriksaan spread.</li><li><b>Output terverifikasi:</b> sertakan timestamp candle terakhir, sumber feed, spread, entry, SL, TP, rasio risiko/imbalan, dan alasan signal.</li><li><b>Keamanan:</b> simpan API key di server, bukan HTML browser. Untuk eksekusi order otomatis diperlukan integrasi broker terpisah dan pengujian menyeluruh.</li></ol><div class="warning">Versi file ini memakai embed TradingView untuk chart. Signal engine belum terhubung ke feed OHLC API; karena itu ia sengaja tetap WAIT dan tidak menampilkan harga/level yang dibuat-buat.</div></section>
+</div><div class="foot">AURUM PULSE • Dual Strategy Dashboard • Chart eksternal memerlukan koneksi internet.<br>Informasi edukatif, bukan nasihat keuangan atau jaminan hasil trading.</div>
+</main></div>
+<script>
+const names={"1":"1 menit","5":"5 menit","15":"15 menit","30":"30 menit","60":"1 jam","240":"4 jam","D":"1 hari","W":"1 minggu","M":"1 bulan"};
+const markets={gold:{symbol:"OANDA:XAUUSD",title:"XAUUSD · Gold",eyebrow:"Gold / US Dollar",link:"https://www.tradingview.com/chart/?symbol=OANDA%3AXAUUSD",base:2350},nasdaq:{symbol:"NASDAQ:NDX",title:"NASDAQ 100",eyebrow:"US Technology Index",link:"https://www.tradingview.com/chart/?symbol=NASDAQ%3ANDX",base:20000},dxy:{symbol:"TVC:DXY",title:"DXY · US Dollar Index",eyebrow:"US Dollar Index",link:"https://www.tradingview.com/chart/?symbol=TVC%3ADXY",base:104}};
+let currentMarket="gold",currentTf="1",demoCandles=[];
+function seeded(seed){let x=seed>>>0;return()=>{x=(x*1664525+1013904223)>>>0;return x/4294967296}}
+function buildDemoCandles(){const m=markets[currentMarket],rnd=seeded((currentMarket+currentTf).split('').reduce((a,c)=>a+c.charCodeAt(0),Math.round(m.base)));let p=m.base;const arr=[];for(let i=0;i<130;i++){const drift=(rnd()-.49)*(m.base*.0015);const o=p,c=Math.max(m.base*.7,p+drift),hi=Math.max(o,c)+rnd()*m.base*.0007,lo=Math.min(o,c)-rnd()*m.base*.0007;arr.push({open:o,high:hi,low:lo,close:c});p=c}return arr}
+function smaEma(data,period){let prev=data[0],out=[];const k=2/(period+1);for(const v of data){prev=v*k+prev*(1-k);out.push(prev)}return out}
+function drawOwnChart(){const canvas=document.getElementById('ownChart');if(!canvas)return;const rect=canvas.getBoundingClientRect();if(rect.width<20||rect.height<20)return;const dpr=window.devicePixelRatio||1;canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr);const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);const w=rect.width,h=rect.height;ctx.fillStyle='#0b121a';ctx.fillRect(0,0,w,h);const data=demoCandles.length?demoCandles:(demoCandles=buildDemoCandles());const pad={l:12,r:62,t:18,b:25},cw=w-pad.l-pad.r,ch=h-pad.t-pad.b;const lo=Math.min(...data.map(x=>x.low)),hi=Math.max(...data.map(x=>x.high)),span=hi-lo||1;const y=v=>pad.t+(hi-v)/span*ch;const x=i=>pad.l+(i+.5)*cw/data.length;ctx.font='10px system-ui';ctx.strokeStyle='#1e2a36';ctx.fillStyle='#81909e';ctx.lineWidth=1;for(let i=0;i<=5;i++){const yy=pad.t+ch*i/5;ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(w-pad.r+4,yy);ctx.stroke();ctx.fillText((hi-span*i/5).toFixed(currentMarket==='dxy'?3:2),w-pad.r+8,yy+3)}for(let i=0;i<=6;i++){const xx=pad.l+cw*i/6;ctx.beginPath();ctx.moveTo(xx,pad.t);ctx.lineTo(xx,pad.t+ch);ctx.stroke()}const body=Math.max(2,Math.min(9,cw/data.length*.68));data.forEach((c,i)=>{const xx=x(i),up=c.close>=c.open;ctx.strokeStyle=up?'#5cdda7':'#ff7e83';ctx.fillStyle=up?'#5cdda7':'#ff7e83';ctx.beginPath();ctx.moveTo(xx,y(c.high));ctx.lineTo(xx,y(c.low));ctx.stroke();const yy=Math.min(y(c.open),y(c.close)),bh=Math.max(1,Math.abs(y(c.open)-y(c.close)));ctx.fillRect(xx-body/2,yy,body,bh)});const closes=data.map(c=>c.close),emaFast=smaEma(closes,21),emaSlow=smaEma(closes,55),hull=smaEma(closes,Math.max(5,Math.round(55*.55)));function line(values,color,width=1.4){ctx.beginPath();values.forEach((v,i)=>{if(i===0)ctx.moveTo(x(i),y(v));else ctx.lineTo(x(i),y(v))});ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke()}line(hull,'#d5a84f',1.7);line(emaFast,'#58c8e8',1.2);line(emaSlow,'#9c8bff',1.2);const atr=data.map((c,i)=>c.high-c.low);let ce=Array(data.length).fill(null);for(let i=10;i<data.length;i++){const recent=Math.max(...data.slice(i-10,i+1).map(c=>c.high));ce[i]=recent-2.5*(atr.slice(i-10,i+1).reduce((a,b)=>a+b,0)/11)}ctx.beginPath();let begun=false;ce.forEach((v,i)=>{if(v===null)return;if(!begun){ctx.moveTo(x(i),y(v));begun=true}else ctx.lineTo(x(i),y(v))});ctx.strokeStyle='#5cdda7';ctx.lineWidth=1.2;ctx.setLineDash([4,3]);ctx.stroke();ctx.setLineDash([]);const last=data[data.length-1];ctx.fillStyle='#d5a84f';ctx.fillText('SIMULASI',pad.l+5,pad.t+10);ctx.fillStyle='#edf1f5';ctx.fillText('C '+last.close.toFixed(currentMarket==='dxy'?3:2),pad.l+5,h-8);ctx.fillStyle='#8d9baa';ctx.fillText('Bukan data pasar',Math.max(pad.l+5,w-150),h-8)}
+function loadTradingView(){const m=markets[currentMarket];const frame=document.getElementById('tv');if(frame)frame.src='https://www.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol='+encodeURIComponent(m.symbol)+'&interval='+encodeURIComponent(currentTf)+'&hidesidetoolbar=0&symboledit=1&saveimage=0&toolbarbg=%23121b25&theme=dark&style=1&timezone=Asia%2FJakarta&withdateranges=1&hideideas=1&studies=%5B%5D&locale=id';document.getElementById('chartTitle').textContent='Chart mandiri · '+m.title;document.getElementById('marketEyebrow').textContent=m.eyebrow;document.getElementById('openTv').href=m.link;document.getElementById('quoteValue').textContent='Data live belum tersambung';document.getElementById('quoteNote').textContent='Chart yang terlihat adalah simulasi, bukan kuotasi pasar.';document.getElementById('dataState').textContent='SIMULASI • feed live belum terhubung';document.getElementById('signalReason').textContent='Instrumen aktif: '+m.title+'. Chart mandiri saat ini memakai data simulasi. TradingView tampil sebagai pembanding; OHLC dari iframe tidak dapat dibaca oleh halaman ini. Signal tetap NO TRADE sampai feed resmi terhubung.';document.getElementById('ownChartStatus').textContent='SIMULASI · '+m.title+' · '+names[currentTf];document.getElementById('ownChartMeta').textContent='Candlestick sintetis untuk uji antarmuka; overlay visual demo bukan indikator live.';demoCandles=buildDemoCandles();drawOwnChart()}
+document.querySelectorAll('#timeframes .tf').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#timeframes .tf').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentTf=b.dataset.tf;document.getElementById('tfLabel').textContent='Timeframe: '+names[currentTf];loadTradingView()}));
+document.querySelectorAll('#markets .tf').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#markets .tf').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentMarket=b.dataset.market;document.getElementById('journalMarket').value=({gold:'XAUUSD',nasdaq:'NASDAQ 100',dxy:'DXY'})[currentMarket];loadTradingView()}));
+document.getElementById('toggleTv').addEventListener('click',()=>{const panel=document.getElementById('comparePanel');const open=panel.classList.toggle('open');document.getElementById('toggleTv').textContent=open?'Sembunyikan chart TradingView pembanding':'Tampilkan chart TradingView pembanding';if(open)loadTradingView()});
+window.addEventListener('resize',drawOwnChart);
+
+
+const hullOriginal = `//@version=4
+//Basic Hull Ma Pack tinkered by InSilico
+study("Hull Suite by InSilico", overlay=true)
+
+//INPUT
+src = input(close, title="Source")
+modeSwitch = input("Hma", title="Hull Variation", options=["Hma", "Thma", "Ehma"])
+length = input(55, title="Length(180-200 for floating S/R , 55 for swing entry)")
+lengthMult = input(1.0, title="Length multiplier (Used to view higher timeframes with straight band)")
+
+useHtf = input(false, title="Show Hull MA from X timeframe? (good for scalping)")
+htf = input("240", title="Higher timeframe", type=input.resolution)
+
+switchColor = input(true, "Color Hull according to trend?")
+candleCol = input(false,title="Color candles based on Hull's Trend?")
+visualSwitch  = input(true, title="Show as a Band?")
+thicknesSwitch = input(1, title="Line Thickness")
+transpSwitch = input(40, title="Band Transparency",step=5)
+
+//FUNCTIONS
+HMA(_src, _length) => wma(2 * wma(_src, _length / 2) - wma(_src, _length), round(sqrt(_length)))
+EHMA(_src, _length) => ema(2 * ema(_src, _length / 2) - ema(_src, _length), round(sqrt(_length)))
+THMA(_src, _length) => wma(wma(_src,_length / 3) * 3 - wma(_src, _length / 2) - wma(_src, _length), _length)
+
+Mode(modeSwitch, src, len) =>
+      modeSwitch == "Hma"  ? HMA(src, len) :
+      modeSwitch == "Ehma" ? EHMA(src, len) :
+      modeSwitch == "Thma" ? THMA(src, len/2) : na
+
+_hull = Mode(modeSwitch, src, int(length * lengthMult))
+HULL = useHtf ? security(syminfo.ticker, htf, _hull) : _hull
+MHULL = HULL[0]
+SHULL = HULL[2]
+
+hullColor = switchColor ? (HULL > HULL[2] ? #00ff00 : #ff0000) : #ff9800
+
+Fi1 = plot(MHULL, title="MHULL", color=hullColor, linewidth=thicknesSwitch, transp=50)
+Fi2 = plot(visualSwitch ? SHULL : na, title="SHULL", color=hullColor, linewidth=thicknesSwitch, transp=50)
+alertcondition(crossover(MHULL, SHULL), title="Hull trending up.", message="Hull trending up.")
+alertcondition(crossover(SHULL, MHULL), title="Hull trending down.", message="Hull trending down.")
+fill(Fi1, Fi2, title="Band Filler", color=hullColor, transp=transpSwitch)
+barcolor(color = candleCol ? (switchColor ? hullColor : na) : na)`;
+
+function refreshHullScript() {
+  const mode = document.getElementById("hullMode").value;
+  const length = Math.max(1, parseInt(document.getElementById("hullLength").value || "55", 10));
+  const mult = Math.max(0.1, parseFloat(document.getElementById("hullMult").value || "1"));
+  const useHtf = document.getElementById("hullUseHtf").value === "true";
+  const htf = document.getElementById("hullHtf").value;
+  let script = hullOriginal
+    .replace('input("Hma", title="Hull Variation", options=["Hma", "Thma", "Ehma"])', `input("${mode}", title="Hull Variation", options=["Hma", "Thma", "Ehma"])`)
+    .replace('input(55, title="Length(180-200 for floating S/R , 55 for swing entry)")', `input(${length}, title="Length(180-200 for floating S/R , 55 for swing entry)")`)
+    .replace('input(1.0, title="Length multiplier (Used to view higher timeframes with straight band)")', `input(${mult}, title="Length multiplier (Used to view higher timeframes with straight band)")`)
+    .replace('input(false, title="Show Hull MA from X timeframe? (good for scalping)")', `input(${useHtf}, title="Show Hull MA from X timeframe? (good for scalping)")`)
+    .replace('input("240", title="Higher timeframe", type=input.resolution)', `input("${htf}", title="Higher timeframe", type=input.resolution)`);
+  document.getElementById("hullScript").value = script;
+}
+["hullMode","hullLength","hullMult","hullHtf","hullUseHtf"].forEach(id => document.getElementById(id).addEventListener("input", refreshHullScript));
+document.getElementById("copyHull").addEventListener("click", async () => {
+  const target = document.getElementById("hullScript");
+  try {
+    await navigator.clipboard.writeText(target.value);
+    document.getElementById("hullCopyStatus").textContent = "Skrip berhasil disalin. Tempelkan ke Pine Editor di TradingView.";
+  } catch (e) {
+    target.focus(); target.select();
+    const ok = document.execCommand("copy");
+    document.getElementById("hullCopyStatus").textContent = ok ? "Skrip berhasil disalin. Tempelkan ke Pine Editor di TradingView." : "Pilih seluruh teks skrip lalu gunakan Salin/Copy dari menu perangkat.";
+  }
+});
+refreshHullScript();
+document.getElementById("copyUnified").addEventListener("click", async () => { const target=document.getElementById("unifiedScript"); try { await navigator.clipboard.writeText(target.value); document.getElementById("unifiedCopyStatus").textContent="Unified Pine Script berhasil disalin."; } catch(e) { target.focus(); target.select(); const ok=document.execCommand("copy"); document.getElementById("unifiedCopyStatus").textContent=ok?"Unified Pine Script berhasil disalin.":"Pilih teks skrip lalu gunakan Salin/Copy."; } });
+
+function evaluateProtection(){const checks=[...document.querySelectorAll(".score-check")];const score=checks.reduce((sum,c)=>sum+(c.checked?Number(c.value):0),0);document.getElementById("scoreValue").textContent=score+" / 100";document.getElementById("scoreFill").style.width=score+"%";const regime=document.getElementById("regimeSelect").value,vol=document.getElementById("volatilitySelect").value,side=document.getElementById("setupSide").value;document.getElementById("regimeValue").textContent=regime==="trend"?"Trending":regime==="sideways"?"Sideways":"Belum dikonfirmasi";document.getElementById("newsStateText").textContent=vol==="high"?"Risiko tinggi":vol==="normal"?"Normal":"Belum dicek";document.getElementById("volStateText").textContent=vol==="high"?"Tinggi":vol==="normal"?"Normal":"Belum dicek";document.getElementById("newsStatus").textContent=vol==="unknown"?"BELUM DIPERIKSA":vol==="high"?"RISIKO TINGGI":"PEMERIKSAAN MANUAL";const blocked=[];if(side==="none")blocked.push("belum memilih arah setup");if(score<70)blocked.push("skor di bawah 70");if(document.getElementById("sidewaysBlock").checked&&regime!=="trend")blocked.push(regime==="sideways"?"pasar sideways":"regime belum dikonfirmasi");if(document.getElementById("newsBlock").checked&&vol!=="normal")blocked.push(vol==="high"?"berita/volatilitas tinggi":"news guard belum dikonfirmasi normal");if(!document.getElementById("candleClosed").checked)blocked.push("konfirmasi candle close dimatikan");if(!document.getElementById("filtersPassed").checked)blocked.push("filter lintas timeframe/spread belum diverifikasi");blocked.push("feed OHLC live dan kalkulasi indikator belum terhubung");const allowed=false;document.getElementById("tradeStatus").textContent=allowed?(side.toUpperCase()+" · SIAP DITINJAU"):"NO TRADE";document.getElementById("tradeStatus").style.background="#3c3423";document.getElementById("tradeStatus").style.color="#e8c66e";document.getElementById("guardStateText").textContent=blocked.length?"BLOKIR":"Perlu feed live";document.getElementById("protectionReason").textContent="NO TRADE: "+blocked.join("; ")+". Skor checklist bukan probabilitas profit. Tidak ada sinyal otomatis tanpa data candle yang dapat diverifikasi.";document.getElementById("signalHeadline").textContent="WAIT / NO TRADE";document.getElementById("confirmStatus").textContent="Feed belum terhubung";["liveEntry","liveSL","liveTP1","liveTP2","liveRR","signalTime"].forEach(id=>document.getElementById(id).textContent="—");}
+document.querySelectorAll(".score-check,#sidewaysBlock,#newsBlock,#candleClosed,#filtersPassed,#regimeSelect,#volatilitySelect,#setupSide").forEach(el=>el.addEventListener("change",evaluateProtection));
+evaluateProtection();
+let journal=[];try{journal=JSON.parse(localStorage.getItem("aurumPulseJournalV1")||"[]");if(!Array.isArray(journal))journal=[]}catch(e){journal=[]}function saveJournal(){try{localStorage.setItem("aurumPulseJournalV1",JSON.stringify(journal))}catch(e){}}function renderJournal(){const body=document.getElementById("journalRows");if(!journal.length){body.innerHTML='<tr><td colspan="5" class="muted">Belum ada catatan.</td></tr>';return}body.innerHTML=journal.map(r=>'<tr><td>'+r.time+'</td><td>'+r.market+'</td><td>'+r.side+'</td><td>'+r.result+'</td><td>'+r.note.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))+'</td></tr>').join('')}
+document.getElementById("addJournal").addEventListener("click",()=>{journal.unshift({time:new Intl.DateTimeFormat("id-ID",{hour:"2-digit",minute:"2-digit",day:"2-digit",month:"2-digit",timeZone:"Asia/Jakarta"}).format(new Date()),market:document.getElementById("journalMarket").value,side:document.getElementById("journalSide").value,result:document.getElementById("journalResult").value,note:document.getElementById("journalNote").value||"—"});saveJournal();renderJournal();document.getElementById("journalNote").value=""});
+document.getElementById("clearJournal").addEventListener("click",()=>{if(!confirm("Hapus semua catatan jurnal lokal di browser ini?"))return;journal=[];saveJournal();renderJournal()});
+document.getElementById("exportJournal").addEventListener("click",()=>{if(!journal.length){alert("Belum ada catatan untuk diekspor.");return}const csv=[['Waktu','Instrumen','Arah','Hasil','Catatan'],...journal.map(r=>[r.time,r.market,r.side,r.result,r.note])].map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='aurum-pulse-journal.csv';a.click();URL.revokeObjectURL(a.href)});
+
+function clock(){document.getElementById("clock").textContent=new Intl.DateTimeFormat("id-ID",{dateStyle:"medium",timeStyle:"medium",timeZone:"Asia/Jakarta"}).format(new Date())}clock();setInterval(clock,1000);
+function calc(){let e=Number(document.getElementById("entryIn").value),s=Number(document.getElementById("slIn").value),rr=Number(document.getElementById("rrIn").value),side=document.getElementById("sideIn").value;let ok=e>0&&s>0&&e!==s&&((side==="buy"&&s<e)||(side==="sell"&&s>e));if(!ok){["riskOut","tpOut","directionOut","rrOut"].forEach(id=>document.getElementById(id).textContent="—");return}let risk=Math.abs(e-s),tp=side==="buy"?e+risk*rr:e-risk*rr;document.getElementById("riskOut").textContent=risk.toFixed(2);document.getElementById("tpOut").textContent=tp.toFixed(2);document.getElementById("directionOut").textContent=side.toUpperCase();document.getElementById("rrOut").textContent="1 : "+rr}
+["entryIn","slIn","rrIn","sideIn"].forEach(id=>document.getElementById(id).addEventListener("input",calc));
+
+// CSV historical backtest: educational EMA-cross baseline, not the live signal engine.
+let btRows=[];
+document.getElementById("btFile").addEventListener("change",async e=>{
+ const f=e.target.files&&e.target.files[0]; if(!f)return;
+ try{
+  const raw=await f.text(); const lines=raw.trim().split(/\r?\n/); if(lines.length<30)throw new Error("File terlalu pendek; butuh minimal 30 candle.");
+  const headers=lines.shift().split(",").map(x=>x.trim().toLowerCase().replace(/^"|"$/g,""));
+  const idx=(names)=>headers.findIndex(h=>names.includes(h));
+  const oi=idx(["open"]),hi=idx(["high"]),li=idx(["low"]),ci=idx(["close"]),ti=idx(["time","timestamp","datetime","date"]);
+  if([oi,hi,li,ci].some(i=>i<0))throw new Error("Header wajib: open, high, low, close; time/timestamp disarankan.");
+  const rows=lines.map(line=>{const a=line.split(",").map(x=>x.trim().replace(/^"|"$/g,""));return {time:ti>=0?a[ti]:"",open:Number(a[oi]),high:Number(a[hi]),low:Number(a[li]),close:Number(a[ci])}}).filter(r=>[r.open,r.high,r.low,r.close].every(Number.isFinite)&&r.high>=r.low&&r.close>0);
+  if(rows.length<30)throw new Error("Data valid kurang dari 30 candle.");
+  btRows=rows; document.getElementById("btStatus").textContent=rows.length+" candle valid dimuat."; ["btTrades","btWin","btNet","btDD"].forEach(id=>document.getElementById(id).textContent="—");
+ }catch(err){btRows=[];document.getElementById("btStatus").textContent="Gagal membaca CSV: "+err.message}
+});
+document.getElementById("runBacktest").addEventListener("click",()=>{
+ const status=document.getElementById("btStatus");
+ if(btRows.length<30){status.textContent="Unggah CSV valid terlebih dahulu.";return}
+ const fastN=Number(document.getElementById("btFast").value),slowN=Number(document.getElementById("btSlow").value),slMult=Number(document.getElementById("btSL").value),rr=Number(document.getElementById("btRR").value),cost=Number(document.getElementById("btCost").value);
+ if(!(fastN>=2&&slowN>fastN&&slMult>0&&rr>0&&cost>=0)){status.textContent="Parameter tidak valid: EMA lambat harus lebih besar daripada EMA cepat.";return}
+ const ema=(n)=>{const out=Array(btRows.length).fill(null),k=2/(n+1);let v=btRows[0].close;out[0]=v;for(let i=1;i<btRows.length;i++){v=btRows[i].close*k+v*(1-k);out[i]=v}return out};
+ const ef=ema(fastN),es=ema(slowN),atr=Array(btRows.length).fill(null);let prev=btRows[0].close;
+ for(let i=1;i<btRows.length;i++){const r=btRows[i],tr=Math.max(r.high-r.low,Math.abs(r.high-prev),Math.abs(r.low-prev));atr[i]=i<14?tr:(atr[i-1]*13+tr)/14;prev=r.close}
+ let pos=null,trades=[],equity=0,peak=0,maxDD=0;
+ for(let i=2;i<btRows.length;i++){
+  const r=btRows[i];
+  if(pos){
+   let exit=null,reason="";
+   if(pos.side==="long"){if(r.low<=pos.sl){exit=pos.sl;reason="SL"}else if(r.high>=pos.tp){exit=pos.tp;reason="TP"}}
+   else{if(r.high>=pos.sl){exit=pos.sl;reason="SL"}else if(r.low<=pos.tp){exit=pos.tp;reason="TP"}}
+   if(exit!==null){const result=(pos.side==="long"?(exit-pos.entry):(pos.entry-exit))/pos.risk-cost;trades.push({result,reason});equity+=result;peak=Math.max(peak,equity);maxDD=Math.max(maxDD,peak-equity);pos=null;}
+  }
+  if(!pos&&atr[i]&&atr[i]>0){
+   const crossUp=ef[i-1]<=es[i-1]&&ef[i]>es[i],crossDown=ef[i-1]>=es[i-1]&&ef[i]<es[i];
+   if(crossUp||crossDown){const side=crossUp?"long":"short",entry=r.close,risk=atr[i]*slMult;pos={side,entry,risk,sl:entry+(side==="long"?-risk:risk),tp:entry+(side==="long"?1:-1)*risk*rr}}
+  }
+ }
+ if(pos){const r=btRows[btRows.length-1],result=(pos.side==="long"?(r.close-pos.entry):(pos.entry-r.close))/pos.risk-cost;trades.push({result,reason:"End of data"});equity+=result;peak=Math.max(peak,equity);maxDD=Math.max(maxDD,peak-equity)}
+ const wins=trades.filter(t=>t.result>0).length,net=trades.reduce((a,t)=>a+t.result,0);
+ document.getElementById("btTrades").textContent=String(trades.length);document.getElementById("btWin").textContent=trades.length?(100*wins/trades.length).toFixed(1)+"%":"0%";document.getElementById("btNet").textContent=net.toFixed(2)+" R";document.getElementById("btDD").textContent=maxDD.toFixed(2)+" R";
+ status.textContent="Selesai: "+btRows.length+" candle; "+trades.length+" trade. Ini baseline EMA, bukan validasi strategi AURUM PULSE/SMC.";
+});
+
+</script></body></html>
